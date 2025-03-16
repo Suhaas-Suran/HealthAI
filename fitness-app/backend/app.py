@@ -5,6 +5,9 @@ import google.generativeai as genai
 from dotenv import load_dotenv
 import json
 import logging
+import base64
+from datetime import datetime
+import uuid
 
 # Load environment variables
 load_dotenv()
@@ -25,9 +28,14 @@ try:
     
     genai.configure(api_key=gemini_api_key)
     model = genai.GenerativeModel('gemini-2.0-flash')
+    vision_model = genai.GenerativeModel('gemini-1.5-flash')
 except Exception as e:
     logger.error(f"Failed to initialize Gemini API: {e}")
     raise RuntimeError(f"Failed to initialize Gemini API: {e}")
+
+# In-memory storage (replace with database in production)
+meals_db = []
+user_progress = []
 
 @app.route('/api/recommend', methods=['POST'])
 def recommend():
@@ -127,6 +135,155 @@ def recommend():
             "error": "An error occurred while generating recommendations",
             "message": str(e)
         }), 500
+
+@app.route('/api/log-meal', methods=['POST'])
+def log_meal():
+    data = request.json
+    
+    meal_data = {
+        'id': str(uuid.uuid4()),
+        'userId': data.get('userId', 'default_user'),
+        'name': data.get('name'),
+        'description': data.get('description', ''),
+        'mealType': data.get('mealType', 'other'),
+        'calories': data.get('calories'),
+        'protein': data.get('protein', 0),
+        'carbs': data.get('carbs', 0),
+        'fats': data.get('fats', 0),
+        'date': data.get('date', datetime.now().isoformat())
+    }
+    
+    meals_db.append(meal_data)
+    
+    return jsonify({
+        'status': 'success',
+        'message': 'Meal logged successfully',
+        'data': meal_data
+    })
+
+@app.route('/api/analyze-food-image', methods=['POST'])
+def analyze_food_image():
+    data = request.json
+    image_data = data.get('image')
+    
+    if not image_data:
+        return jsonify({'error': 'No image provided'}), 400
+    
+    try:
+        # Remove the base64 prefix if present
+        if ',' in image_data:
+            image_data = image_data.split(',')[1]
+        
+        # Create a content part with the image
+        image_parts = [
+            {
+                "inlineData": {
+                    "mimeType": "image/jpeg",
+                    "data": image_data
+                }
+            }
+        ]
+        
+        prompt = """
+        Analyze this food image and provide the following information in JSON format:
+        1. What food items are visible
+        2. Estimated calories per serving
+        3. Estimated macronutrients (protein, carbs, fats) in grams
+        
+        Format your response as a valid JSON object with these keys:
+        {
+          "foodItems": ["item1", "item2", ...],
+          "calories": number,
+          "protein": number,
+          "carbs": number,
+          "fats": number,
+          "mealType": "breakfast/lunch/dinner/snack"
+        }
+        
+        Don't include any explanations or markdown - just the JSON object.
+        """
+        
+        response = vision_model.generate_content([prompt, image_parts[0]])
+        response_text = response.text.strip()
+        
+        # Extract JSON from response
+        if "```json" in response_text:
+            response_text = response_text.split("```json")[1].split("```")[0].strip()
+        elif "```" in response_text:
+            response_text = response_text.split("```")[1].split("```")[0].strip()
+            
+        food_data = json.loads(response_text)
+        return jsonify(food_data)
+    
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to parse AI response: {e}")
+        return jsonify({
+            "error": "Failed to parse AI response",
+            "message": "Invalid JSON structure received",
+            "raw_response": response.text if 'response' in locals() else "No response generated"
+        }), 500
+    except Exception as e:
+        logger.error(f"An error occurred: {e}")
+        return jsonify({
+            "error": "An error occurred while analyzing the image",
+            "message": str(e)
+        }), 500
+
+@app.route('/api/meals', methods=['GET'])
+def get_meals():
+    user_id = request.args.get('userId', 'default_user')
+    start_date = request.args.get('startDate')
+    end_date = request.args.get('endDate')
+    
+    # Filter by user ID
+    user_meals = [meal for meal in meals_db if meal['userId'] == user_id]
+    
+    # Filter by date range if provided
+    if start_date and end_date:
+        user_meals = [meal for meal in user_meals if start_date <= meal['date'] <= end_date]
+    
+    return jsonify(user_meals)
+
+@app.route('/api/progress', methods=['POST'])
+def log_progress():
+    data = request.json
+    
+    progress_entry = {
+        'id': str(uuid.uuid4()),
+        'userId': data.get('userId', 'default_user'),
+        'date': data.get('date', datetime.now().isoformat()),
+        'weight': data.get('weight'),
+        'bodyFat': data.get('bodyFat'),
+        'calories': data.get('calories'),
+        'protein': data.get('protein'),
+        'carbs': data.get('carbs'),
+        'fats': data.get('fats'),
+        'steps': data.get('steps'),
+        'workoutMinutes': data.get('workoutMinutes')
+    }
+    
+    user_progress.append(progress_entry)
+    
+    return jsonify({
+        'status': 'success',
+        'message': 'Progress logged successfully',
+        'data': progress_entry
+    })
+
+@app.route('/api/progress', methods=['GET'])
+def get_progress():
+    user_id = request.args.get('userId', 'default_user')
+    start_date = request.args.get('startDate')
+    end_date = request.args.get('endDate')
+    
+    # Filter by user ID
+    user_data = [entry for entry in user_progress if entry['userId'] == user_id]
+    
+    # Filter by date range if provided
+    if start_date and end_date:
+        user_data = [entry for entry in user_data if start_date <= entry['date'] <= end_date]
+    
+    return jsonify(user_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

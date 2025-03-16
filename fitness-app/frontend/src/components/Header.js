@@ -23,7 +23,7 @@ function Header() {
             fontWeight: 700,
             letterSpacing: 1.5,
             cursor: "pointer",
-            fontFamily: "'Poppins', sans-serif",
+            fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
           }}
         >
           HealthAI
@@ -37,7 +37,7 @@ function Header() {
               cursor: "pointer",
               fontWeight: 500,
               fontSize: "1.1rem",
-              fontFamily: "'Poppins', sans-serif",
+              fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif'",
               "&:hover": { color: "#fff", textDecoration: "underline" },
             }}
           >
@@ -45,15 +45,42 @@ function Header() {
           </Typography>
           <Typography
             variant="body1"
+            onClick={() => navigate("/form")}
             sx={{
               cursor: "pointer",
               fontWeight: 500,
               fontSize: "1.1rem",
-              fontFamily: "'Poppins', sans-serif",
+              fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
               "&:hover": { color: "#fff", textDecoration: "underline" },
             }}
           >
-            Features
+            Generate Plan
+          </Typography>
+          <Typography
+            variant="body1"
+            onClick={() => navigate("/meal-logging")}
+            sx={{
+              cursor: "pointer",
+              fontWeight: 500,
+              fontSize: "1.1rem",
+              fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+              "&:hover": { color: "#fff", textDecoration: "underline" },
+            }}
+          >
+            Meal Logging
+          </Typography>
+          <Typography
+            variant="body1"
+            onClick={() => navigate("/progress")}
+            sx={{
+              cursor: "pointer",
+              fontWeight: 500,
+              fontSize: "1.1rem",
+              fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+              "&:hover": { color: "#fff", textDecoration: "underline" },
+            }}
+          >
+            Progress
           </Typography>
           <Typography
             variant="body1"
@@ -61,7 +88,7 @@ function Header() {
               cursor: "pointer",
               fontWeight: 500,
               fontSize: "1.1rem",
-              fontFamily: "'Poppins', sans-serif",
+              fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
               "&:hover": { color: "#fff", textDecoration: "underline" },
             }}
           >

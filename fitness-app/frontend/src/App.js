@@ -4,7 +4,9 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Form from "./components/Form";
 import DailyPlan from "./components/DailyPlan";
-import LandingPage from "./components/LandingPage"; // Import the LandingPage
+import LandingPage from "./components/LandingPage";
+import MealLogging from "./components/MealLogging";
+import ProgressDashboard from "./components/ProgressDashboard";
 import "./styles.css";
 
 function App() {
@@ -49,6 +51,7 @@ function App() {
           <Routes>
             {/* Route for LandingPage */}
             <Route path="/" element={<LandingPage />} />
+
             {/* Route for the form and plan generation */}
             <Route
               path="/form"
@@ -117,6 +120,12 @@ function App() {
                 )
               }
             />
+
+            {/* Route for MealLogging */}
+            <Route path="/meal-logging" element={<MealLogging />} />
+
+            {/* Route for ProgressDashboard */}
+            <Route path="/progress" element={<ProgressDashboard />} />
           </Routes>
         </main>
         <Footer />

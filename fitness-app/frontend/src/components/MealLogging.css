@@ -1,0 +1,222 @@
+/* MealLogging.css */
+
+.meal-logging-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  
+  .meal-logging-container h2,
+  .meal-logging-container h3,
+  .meal-logging-container h4 {
+    color: #3f51b5;
+  }
+  
+  /* Layout for the form wrapper */
+  .meal-form-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .image-upload-section,
+  .meal-form-section {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  /* Image Upload Section */
+  .image-upload-section h3 {
+    margin-bottom: 10px;
+  }
+  
+  .image-preview-container {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+  }
+  
+  .image-preview {
+    max-width: 100%;
+    max-height: 100%;
+  }
+  
+  .image-placeholder {
+    color: #999;
+    font-size: 16px;
+  }
+  
+  /* Upload Controls */
+  .upload-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .file-input {
+    display: none;
+  }
+  
+  /* Buttons */
+  .button {
+    background-color: #3f51b5;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #303f9f;
+  }
+  
+  .analyze-button {
+    margin-top: 10px;
+  }
+  
+  .submit-button {
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  /* Form Groups */
+  .form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Row Layout for Form Groups */
+  .form-group-row {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .form-group-row .form-group {
+    flex: 1;
+  }
+  
+  /* AI Analysis Result */
+  .ai-result {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #3f51b5;
+    border-radius: 4px;
+    background-color: #e8eaf6;
+  }
+  
+  .ai-result h4 {
+    margin: 0 0 10px;
+  }
+  
+  .nutrition-info {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .nutrition-item {
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  /* Log Status Message */
+  .log-status {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #3f51b5;
+  }
+  
+  /* Meal Logs Section */
+  .meal-logs {
+    margin-top: 30px;
+  }
+  
+  .meal-logs h3 {
+    margin-bottom: 15px;
+  }
+  
+  .logs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Individual Log Card */
+  .log-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    background-color: #fff;
+  }
+  
+  .log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .log-header h4 {
+    margin: 0;
+  }
+  
+  .meal-type {
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-transform: capitalize;
+    background-color: #3f51b5;
+    color: #fff;
+    font-size: 12px;
+  }
+  
+  .log-date {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+  }
+  
+  .log-description {
+    margin: 10px 0;
+    font-size: 14px;
+  }
+  
+  .log-nutrition {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .nutrition-pill {
+    background-color: #e8eaf6;
+    border: 1px solid #3f51b5;
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #3f51b5;
+  }
+  

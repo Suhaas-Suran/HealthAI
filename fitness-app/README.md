@@ -37,8 +37,12 @@ fitness-app/
 │   │   │   ├── Form.js       # Form component
 │   │   │   ├── DailyPlan.js  # Daily plan display
 │   │   │   ├── Header.js     # App header
-│   │   │   └── Footer.js     # App footer
-|   |   |   └── LandingPage.js
+│   │   │   ├── Footer.js     # App footer
+│   │   │   ├── LandingPage.js
+│   │   │   ├── MealLogging.js   # Meal logging component
+│   │   │   ├── MealLogging.css  # Meal logging styles
+│   │   │   ├── ProgressDashboard.js  # Progress dashboard component
+│   │   │   └── ProgressDashboard.css # Progress dashboard styles
 │   │   ├── App.js            # Main app component
 │   │   ├── index.js          # React entry point
 │   │   └── styles.css        # Global styles
