@@ -7,6 +7,8 @@ import DailyPlan from "./components/DailyPlan";
 import LandingPage from "./components/LandingPage";
 import MealLogging from "./components/MealLogging";
 import ProgressDashboard from "./components/ProgressDashboard";
+import RecipeGenerator from "./components/RecipeGenerator";
+// import RiskAssessment from "./components/RiskAssessment";
 import "./styles.css";
 
 function App() {
@@ -126,6 +128,12 @@ function App() {
 
             {/* Route for ProgressDashboard */}
             <Route path="/progress" element={<ProgressDashboard />} />
+
+            {/* Route for RecipeGenerator */}
+            <Route path="/recipes" element={<RecipeGenerator />} />
+
+            {/* Route for RiskAssessment */}
+            {/* <Route path="/risk-assessment" element={<RiskAssessment />} /> */}
           </Routes>
         </main>
         <Footer />

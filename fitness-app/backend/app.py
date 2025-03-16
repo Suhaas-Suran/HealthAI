@@ -28,7 +28,7 @@ try:
     
     genai.configure(api_key=gemini_api_key)
     model = genai.GenerativeModel('gemini-2.0-flash')
-    vision_model = genai.GenerativeModel('gemini-1.5-flash')
+    vision_model = genai.GenerativeModel('gemini-2.0-flash')
 except Exception as e:
     logger.error(f"Failed to initialize Gemini API: {e}")
     raise RuntimeError(f"Failed to initialize Gemini API: {e}")
@@ -284,6 +284,73 @@ def get_progress():
         user_data = [entry for entry in user_data if start_date <= entry['date'] <= end_date]
     
     return jsonify(user_data)
+
+@app.route('/api/generate-recipe', methods=['POST'])
+def generate_recipe():
+    data = request.json
+    ingredients = data.get('ingredients', [])
+    
+    if not ingredients or len(ingredients) < 2:
+        return jsonify({
+            "error": "At least 2 ingredients are required"
+        }), 400
+    
+    try:
+        # Create prompt for Gemini
+        prompt = f"""
+        Generate a detailed recipe using ONLY the following ingredients (or a subset of them):
+        {', '.join(ingredients)}
+        
+        Provide the response as a valid JSON object with this exact structure:
+        {{
+          "title": "Recipe Title",
+          "description": "Brief description of the dish",
+          "prepTime": "preparation time in minutes",
+          "cookTime": "cooking time in minutes",
+          "servings": number,
+          "ingredients": [
+            {{"name": "ingredient1", "amount": "quantity"}},
+            {{"name": "ingredient2", "amount": "quantity"}}
+          ],
+          "instructions": [
+            "Step 1 description",
+            "Step 2 description"
+          ],
+          "nutritionEstimate": {{
+            "calories": number,
+            "protein": number,
+            "carbs": number,
+            "fats": number
+          }}
+        }}
+        """
+        
+        # Generate response using Gemini
+        response = model.generate_content(prompt)
+        response_text = response.text.strip()
+        
+        # Improved JSON parsing to handle unexpected text formats
+        if "```json" in response_text:
+            response_text = response_text.split("```json")[1].split("```")[0].strip()
+        elif "```" in response_text:
+            response_text = response_text.split("```")[1].split("```")[0].strip()
+            
+        recipe_data = json.loads(response_text)
+        return jsonify(recipe_data)
+        
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to parse AI response: {e}")
+        return jsonify({
+            "error": "Failed to parse AI response",
+            "message": "Invalid JSON structure received",
+            "raw_response": response.text if 'response' in locals() else "No response generated"
+        }), 500
+    except Exception as e:
+        logger.error(f"An error occurred: {e}")
+        return jsonify({
+            "error": "An error occurred while generating recipe",
+            "message": str(e)
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

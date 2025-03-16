@@ -51,7 +51,7 @@ function Header() {
               fontWeight: 500,
               fontSize: "1.1rem",
               fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-              "&:hover": { color: "#fff", textDecoration: "underline" },
+              "&:hover": { color: "#fff" },
             }}
           >
             Generate Plan
@@ -64,7 +64,7 @@ function Header() {
               fontWeight: 500,
               fontSize: "1.1rem",
               fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-              "&:hover": { color: "#fff", textDecoration: "underline" },
+              "&:hover": { color: "#fff" },
             }}
           >
             Meal Logging
@@ -77,13 +77,29 @@ function Header() {
               fontWeight: 500,
               fontSize: "1.1rem",
               fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-              "&:hover": { color: "#fff", textDecoration: "underline" },
+              "&:hover": { color: "#fff" },
             }}
           >
             Progress
           </Typography>
           <Typography
             variant="body1"
+            onClick={() => navigate("/recipes")}
+            sx={{
+              cursor: "pointer",
+              fontWeight: 500,
+              fontSize: "1.1rem",
+              fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+              "&:hover": { color: "#fff" },
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            Recipe Generator
+          </Typography>
+          {/* <Typography
+            variant="body1"
+            onClick={() => navigate("/risk-assessment")}
             sx={{
               cursor: "pointer",
               fontWeight: 500,
@@ -92,8 +108,8 @@ function Header() {
               "&:hover": { color: "#fff", textDecoration: "underline" },
             }}
           >
-            Contact
-          </Typography>
+            Risk Assessment
+          </Typography> */}
         </Box>
       </Toolbar>
     </AppBar>
