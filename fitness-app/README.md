@@ -43,6 +43,9 @@ fitness-app/
 │   │   │   ├── MealLogging.css  # Meal logging styles
 │   │   │   ├── ProgressDashboard.js  # Progress dashboard component
 │   │   │   └── ProgressDashboard.css # Progress dashboard styles
+|   |   |   ├── RecipeGenerator.js
+|   |   |   └── ChatBot.js
+│   │   │
 │   │   ├── App.js            # Main app component
 │   │   ├── index.js          # React entry point
 │   │   └── styles.css        # Global styles

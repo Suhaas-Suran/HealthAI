@@ -351,6 +351,108 @@ def generate_recipe():
             "error": "An error occurred while generating recipe",
             "message": str(e)
         }), 500
+    
+@app.route('/api/chatbot', methods=['POST'])
+def chat_with_bot():
+    data = request.json
+    query = data.get('query')
+    
+    if not query:
+        return jsonify({
+            "error": "No query provided"
+        }), 400
+    
+    try:
+        # Create prompt for Gemini
+        prompt = f"""
+        You are a helpful nutrition and fitness assistant. Answer the following question 
+        about diet, nutrition, or exercise. Be concise, factual, and helpful.
+        
+        User query: {query}
+        """
+        
+        # Generate response using Gemini
+        response = model.generate_content(prompt)
+        response_text = response.text.strip()
+        
+        return jsonify({
+            "response": response_text
+        })
+    except Exception as e:
+        logger.error(f"An error occurred with the chatbot: {e}")
+        return jsonify({
+            "error": "An error occurred while processing your request",
+            "message": str(e)
+        }), 500
+
+@app.route('/api/calculate-bmi', methods=['POST'])
+def calculate_bmi():
+    data = request.json
+    
+    # Extract user inputs
+    weight = data.get('weight')  # in kg
+    height = data.get('height')  # in cm
+    age = data.get('age')
+    gender = data.get('gender')
+    
+    if not weight or not height:
+        return jsonify({
+            "error": "Weight and height are required"
+        }), 400
+    
+    try:
+        # Convert height from cm to m
+        height_m = height / 100
+        
+        # Calculate BMI
+        bmi = weight / (height_m * height_m)
+        
+        # Determine BMI category
+        if bmi < 18.5:
+            category = "Underweight"
+            risk = "Increased risk of developing health problems"
+        elif bmi < 25:
+            category = "Normal weight"
+            risk = "Low risk of developing health problems"
+        elif bmi < 30:
+            category = "Overweight"
+            risk = "Increased risk of developing health problems"
+        elif bmi < 35:
+            category = "Obesity (Class 1)"
+            risk = "High risk of developing health problems"
+        elif bmi < 40:
+            category = "Obesity (Class 2)"
+            risk = "Very high risk of developing health problems"
+        else:
+            category = "Obesity (Class 3)"
+            risk = "Extremely high risk of developing health problems"
+        
+        # Generate personalized advice using Gemini
+        prompt = f"""
+        Generate a brief, personalized health advice for a {age}-year-old {gender} with a BMI of {bmi:.1f},
+        which falls into the '{category}' category. Include:
+        1. One sentence about what their BMI means
+        2. 2-3 specific, actionable nutrition tips
+        3. 2-3 specific, actionable exercise recommendations
+        
+        Keep the total response under 200 words and make it supportive and encouraging.
+        """
+        
+        ai_response = model.generate_content(prompt)
+        advice = ai_response.text.strip()
+        
+        return jsonify({
+            "bmi": round(bmi, 2),
+            "category": category,
+            "risk": risk,
+            "advice": advice
+        })
+    except Exception as e:
+        logger.error(f"BMI calculation error: {e}")
+        return jsonify({
+            "error": "An error occurred while calculating BMI",
+            "message": str(e)
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
