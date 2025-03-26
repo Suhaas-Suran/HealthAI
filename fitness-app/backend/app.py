@@ -8,6 +8,7 @@ import logging
 import base64
 from datetime import datetime
 import uuid
+from waitress import serve
 
 # Load environment variables
 load_dotenv()
@@ -454,5 +455,5 @@ def calculate_bmi():
             "message": str(e)
         }), 500
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    serve(app, host='0.0.0.0', port=5000)
