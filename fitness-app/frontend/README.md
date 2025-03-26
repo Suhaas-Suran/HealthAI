@@ -1,6 +1,6 @@
-# FitGen AI Frontend
+# HealthAI Frontend
 
-This is the frontend portion of the FitGen AI application, built with React.
+This is the frontend portion of the HealthAI application, built with React.
 
 ## Available Scripts
 
