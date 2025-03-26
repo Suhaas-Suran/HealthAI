@@ -1,6 +1,6 @@
-# FitGen AI - Diet and Workout Recommendation System
+# HealthAI - Diet and Workout Recommendation System
 
-FitGen AI is a web application that provides personalized diet and workout recommendations based on user inputs using Google's Gemini AI.
+HealthAI is a web application that provides personalized diet and workout recommendations based on user inputs using Google's Gemini AI.
 
 ## Overview
 
@@ -148,10 +148,6 @@ fitness-app/
   }
   ```
 - **Response**: JSON object containing the personalized plan
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgements
 
