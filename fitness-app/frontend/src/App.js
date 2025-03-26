@@ -22,13 +22,16 @@ function App() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:5000/api/recommend", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
+      const response = await fetch(
+        "https://healthai-79x3.onrender.com/api/recommend",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to generate plan");

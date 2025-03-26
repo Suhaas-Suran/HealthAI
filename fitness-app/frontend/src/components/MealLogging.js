@@ -22,7 +22,7 @@ function MealLogging() {
   const fetchMealLogs = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/meals?userId=default_user`
+        `https://healthai-79x3.onrender.com/api/meals?userId=default_user`
       );
       if (response.ok) {
         const data = await response.json();
@@ -62,7 +62,7 @@ function MealLogging() {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:5000/api/analyze-food-image",
+        "https://healthai-79x3.onrender.com/api/analyze-food-image",
         {
           method: "POST",
           headers: {
@@ -103,20 +103,23 @@ function MealLogging() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/log-meal", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...mealData,
-          userId: "default_user",
-          calories: Number(mealData.calories),
-          protein: Number(mealData.protein),
-          carbs: Number(mealData.carbs),
-          fats: Number(mealData.fats),
-        }),
-      });
+      const response = await fetch(
+        "https://healthai-79x3.onrender.com/api/log-meal",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...mealData,
+            userId: "default_user",
+            calories: Number(mealData.calories),
+            protein: Number(mealData.protein),
+            carbs: Number(mealData.carbs),
+            fats: Number(mealData.fats),
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to log meal");

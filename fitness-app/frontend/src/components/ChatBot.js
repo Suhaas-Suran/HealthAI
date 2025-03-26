@@ -67,13 +67,16 @@ const ChatBot = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/chatbot", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query: input }),
-      });
+      const response = await fetch(
+        "https://healthai-79x3.onrender.com/api/chatbot",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ query: input }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to get response");

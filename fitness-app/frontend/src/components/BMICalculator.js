@@ -44,18 +44,21 @@ const BMICalculator = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:5000/api/calculate-bmi", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          weight: parseFloat(weight),
-          height: parseFloat(height),
-          age: parseInt(age),
-          gender,
-        }),
-      });
+      const response = await fetch(
+        "https://healthai-79x3.onrender.com/api/calculate-bmi",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            weight: parseFloat(weight),
+            height: parseFloat(height),
+            age: parseInt(age),
+            gender,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to calculate BMI");

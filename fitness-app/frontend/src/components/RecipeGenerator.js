@@ -89,7 +89,7 @@ function RecipeGenerator() {
 
       // Simulate API call (replace with your actual Gemini API endpoint)
       const response = await fetch(
-        "http://localhost:5000/api/generate-recipe",
+        "https://healthai-79x3.onrender.com/api/generate-recipe",
         {
           method: "POST",
           headers: {
